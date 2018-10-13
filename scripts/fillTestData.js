@@ -2,6 +2,7 @@
 
 var _ = require('lodash'),
     path = require('path'),
+    moment = require('moment'),
     mongooseService = require(path.resolve('./config/lib/mongoose')),
     chalk = require('chalk'),
     faker = require('faker'),
@@ -76,6 +77,10 @@ var addUsers = function (index, max) {
   user.email = index + faker.internet.email();
   user.password = faker.internet.password();
   user.username = index + user.displayName.toLowerCase().replace('\'', '').replace(' ', '');
+  user.seen = moment()
+    .subtract(Math.random() * 365, 'd')
+    .subtract(Math.random() * 24, 'h')
+    .subtract(Math.random() * 3600, 's');
 
   user.save(function(err) {
     if (err) {
